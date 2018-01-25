@@ -1,0 +1,23 @@
+{
+  "name": "gg-sense-hat-imu",
+  "version": "1.0.0",
+  "description": "Greengrass Lambda function to interact with the Sense Hat IMU",
+  "main": "index.js",
+  "dependencies": {
+    "nodeimu": "^2.1.9"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teuteuguy/gg-sense-hat-imu.git"
+  },
+  "author": "teuteuguy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/teuteuguy/gg-sense-hat-imu/issues"
+  },
+  "homepage": "https://github.com/teuteuguy/gg-sense-hat-imu#readme"
+}
