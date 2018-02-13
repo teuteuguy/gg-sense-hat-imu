@@ -4,7 +4,7 @@ phases:
   pre_build:
     commands:
       - echo Getting the Instance ID of our SSM managed device
-      - INSTANCE_ID=`aws ssm describe-instance-information --profile tim@tcruse --region us-west-2 --query 'InstanceInformationList[?Name==\`donkeycar\`].InstanceId' --output text`
+      - INSTANCE_ID=`aws ssm describe-instance-information --region us-west-2 --query 'InstanceInformationList[?Name==\`donkeycar\`].InstanceId' --output text`
   build:
     commands:
       - echo Running the build on the SSM managed device
