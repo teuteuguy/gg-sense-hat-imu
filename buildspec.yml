@@ -8,4 +8,4 @@ phases:
   build:
     commands:
       - echo Running the build on the SSM managed device
-      - aws ssm send-command --region us-west-2 --instance-ids "$INSTANCE_ID" --document-name "git-clone-and-npm-install" --parameters gitRepositoryURL=https://github.com/teuteuguy/gg-sense-hat-imu
+      - aws ssm send-command --region us-west-2 --instance-ids "$INSTANCE_ID" --document-name "git-clone-and-run-install" --parameters gitRepositoryURL=https://github.com/teuteuguy/gg-sense-hat-imu
