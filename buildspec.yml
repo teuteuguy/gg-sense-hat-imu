@@ -5,7 +5,7 @@ phases:
     commands:
       - pip install --upgrade awscli
       - GITHUB_REPO_URL=https://github.com/teuteuguy/gg-sense-hat-imu
-      - echo $AWS_REGION $CODEBUILD_SOURCE_REPO_URL
+      - echo $AWS_REGION . $CODEBUILD_SOURCE_REPO_URL . $CODEBUILD_RESOLVED_SOURCE_VERSION . $CODEBUILD_INITIATOR . $CODEBUILD_SOURCE_VERSION
       - AWS_REGION=us-west-2
       - echo Getting the Instance ID of our SSM managed device
       - INSTANCE_ID=`aws ssm describe-instance-information --region $AWS_REGION --query 'InstanceInformationList[?Name==\`donkeycar\`].InstanceId' --output text`
