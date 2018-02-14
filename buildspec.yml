@@ -15,4 +15,4 @@ phases:
   build:
     commands:
       - echo Running the build on the SSM managed device
-      - aws ssm send-command --region $AWS_REGION --instance-ids "$INSTANCE_ID" --document-name "rpi-build" --parameters gitRepositoryURL=$GITHUB_REPO_URL,iotCredentialEndpoint=$IOT_CREDENTIAL_ENDPOINT
+      - aws ssm send-command --region $AWS_REGION --instance-ids "$INSTANCE_ID" --document-name "rpi-build" --parameters gitRepositoryURL="$GITHUB_REPO_URL",iotCredentialEndpoint="$IOT_CREDENTIAL_ENDPOINT"
