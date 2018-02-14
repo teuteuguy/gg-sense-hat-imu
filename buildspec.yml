@@ -16,6 +16,6 @@ phases:
     commands:
       - echo Running the build on the SSM managed device
       - SSM_COMMAND_ID=`aws ssm send-command --region $AWS_REGION --instance-ids "$INSTANCE_ID" --document-name "rpi-build" --parameters gitRepositoryURL="$GITHUB_REPO_URL",iotCredentialEndpoint="$IOT_CREDENTIAL_ENDPOINT" --query Command.CommandId --output text`
-      - for i in `seq 1 3`; do SSM_STATUS=`aws ssm get-command-invocation --instance-id "$INSTANCE_ID" --command-id $SSM_COMMAND_ID --region $AWS_REGION --query Status --output text`; echo $SSM_COMMAND_ID $SSM_STATUS $i; if [ $SSM_STATUS == "Pending" || $SSM_STATUS == "InProgress" || $SSM_STATUS == "Delayed" ]; then echo "SLEEP"; sleep 5; else echo "Exiting"; exit 0; fi done
+      - for i in `seq 1 3`; do SSM_STATUS=`aws ssm get-command-invocation --instance-id "$INSTANCE_ID" --command-id $SSM_COMMAND_ID --region $AWS_REGION --query Status --output text`; echo $SSM_COMMAND_ID $SSM_STATUS $i; sleep 5; done
       - exit 1
 
