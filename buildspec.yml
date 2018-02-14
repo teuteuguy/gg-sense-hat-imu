@@ -3,6 +3,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - pip install --upgrade awscli
       - GITHUB_REPO_URL=https://github.com/teuteuguy/gg-sense-hat-imu
       - AWS_REGION=us-west-2
       - echo Getting the Instance ID of our SSM managed device
