@@ -9,6 +9,7 @@
   "devDependencies": {},
   "scripts": {
     "preinstall": "scripts/preinstall.sh",
+    "postinstall": "scripts/postinstall.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
