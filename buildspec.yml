@@ -3,9 +3,14 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - GITHUB_REPO_URL=https://github.com/teuteuguy/gg-sense-hat-imu
       - echo Getting the Instance ID of our SSM managed device
       - INSTANCE_ID=`aws ssm describe-instance-information --region us-west-2 --query 'InstanceInformationList[?Name==\`donkeycar\`].InstanceId' --output text`
+      - echo InstanceId = $INSTANCE_ID
+      - echo Getting the AWS IoT Get Credentials endpoint
+      - IOT_CREDENTIAL_ENDPOINT=`aws iot describe-endpoint --endpoint-type iot:CredentialProvider`
+      - echo AWS IoT Endpoint = $IOT_CREDENTIAL_ENDPOINT
   build:
     commands:
       - echo Running the build on the SSM managed device
-      - aws ssm send-command --region us-west-2 --instance-ids "$INSTANCE_ID" --document-name "RPI-Build" --parameters gitRepositoryURL=https://github.com/teuteuguy/gg-sense-hat-imu
+      - aws ssm send-command --region us-west-2 --instance-ids "$INSTANCE_ID" --document-name "rpi-build" --parameters gitRepositoryURL=$GITHUB_REPO_URL,iotCredentialEndpoint=$IOT_CREDENTIAL_ENDPOINT

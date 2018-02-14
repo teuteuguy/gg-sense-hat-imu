@@ -1,0 +1,33 @@
+  "schemaVersion": "1.2",
+  "description": "Git clone a Git repo and NPM Install it",
+  "parameters": {
+    "gitRepositoryURL": {
+      "type": "String",
+      "default": "",
+      "description": "The repo that will be used."
+    },
+    "iotCredentialEndpoint": {
+      "type": "String",
+      "default": "",
+      "description": "The AWS IOT get credentials endpoint."
+    }
+  },
+  "runtimeConfig": {
+    "aws:runShellScript": {
+      "properties": [
+        {
+          "id": "0.aws:runShellScript",
+          "runCommand": [
+            "#!/bin/bash",
+            "set -e",
+            "rm -rf /tmp/repo",
+            "git clone {{ gitRepositoryURL }} /tmp/repo",
+            "cd /tmp/repo",
+            "export IOT_CREDENTIAL_ENDPOINT={{ iotCredentialEndpoint }}",
+            "./build.sh"
+          ]
+        }
+      ]
+    }
+  }
+}
