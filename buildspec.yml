@@ -7,7 +7,7 @@ phases:
       - GITHUB_REPO_URL=https://github.com/teuteuguy/gg-sense-hat-imu
       - echo $AWS_REGION . $CODEBUILD_SOURCE_REPO_URL . $CODEBUILD_RESOLVED_SOURCE_VERSION . $CODEBUILD_INITIATOR . $CODEBUILD_SOURCE_VERSION
       - echo Getting the Instance ID of our SSM managed device
-      - ls
+      - ls -la
       - INSTANCE_ID=`aws ssm describe-instance-information --region $AWS_REGION --query 'InstanceInformationList[?Name==\`donkeycar\`].InstanceId' --output text`
       - echo InstanceId = $INSTANCE_ID
       - echo Getting the AWS IoT Get Credentials endpoint
