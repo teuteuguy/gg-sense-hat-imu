@@ -15,4 +15,10 @@ phases:
   build:
     commands:
       - echo Running the build on the SSM managed device
-      - aws ssm send-command --region $AWS_REGION --instance-ids "$INSTANCE_ID" --document-name "rpi-build" --parameters gitRepositoryURL="$GITHUB_REPO_URL",iotCredentialEndpoint="$IOT_CREDENTIAL_ENDPOINT"
+      - for i in `seq 1 10`;
+      - do
+      -     SSM_COMMAND_ID=`aws ssm send-command --region $AWS_REGION --instance-ids "$INSTANCE_ID" --document-name "rpi-build" --parameters gitRepositoryURL="$GITHUB_REPO_URL",iotCredentialEndpoint="$IOT_CREDENTIAL_ENDPOINT" --query Command.CommandId --output text`
+      -     echo $SSM_COMMAND_ID $i
+      -     sleep 5
+      - done
+
