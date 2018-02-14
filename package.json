@@ -21,8 +21,5 @@
   "bugs": {
     "url": "https://github.com/teuteuguy/gg-sense-hat-imu/issues"
   },
-  "homepage": "https://github.com/teuteuguy/gg-sense-hat-imu#readme",
-  "config": {
-    "unsafe-perm":true
-  }
+  "homepage": "https://github.com/teuteuguy/gg-sense-hat-imu#readme"
 }

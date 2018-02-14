@@ -1,3 +1,2 @@
 #!/bin/bash
-# npm install --unsafe-perm
-./scripts/postinstall.sh
+npm install --unsafe-perm
