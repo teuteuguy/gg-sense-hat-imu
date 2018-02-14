@@ -4,8 +4,11 @@ phases:
   install:
     commands:
       - pip install --upgrade awscli
-      - GITHUB_REPO_URL=https://github.com/teuteuguy/gg-sense-hat-imu
       - echo $AWS_REGION . $CODEBUILD_INITIATOR . $CODEBUILD_RESOLVED_SOURCE_VERSION . $CODEBUILD_INITIATOR . $CODEBUILD_SOURCE_VERSION
+      - PIPELINE_NAME=${CODEBUILD_INITIATOR#"codepipeline/"}
+      - GITHUB_REPO_URL=`aws codepipeline get-pipeline --name $PIPELINE_NAME --region $AWS_REGION --query 'pipeline.stages[?name==\`Source\`].actions[0].configuration.{a:\`https://github.com\`,Owner:Owner,Repo:Repo} | [0] | values(@) | join(\`/\`, @)'`
+      - echo $GITHUB_REPO_URL
+      # - GITHUB_REPO_URL=https://github.com/teuteuguy/gg-sense-hat-imu
   pre_build:
     commands:
       - echo Getting the Instance ID of our SSM managed device
