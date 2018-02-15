@@ -4,19 +4,13 @@ phases:
   install:
     commands:
       - pip install --upgrade awscli
-      - echo $AWS_REGION . $CODEBUILD_INITIATOR . $CODEBUILD_RESOLVED_SOURCE_VERSION . $CODEBUILD_INITIATOR . $CODEBUILD_SOURCE_VERSION
-      - PIPELINE_NAME=${CODEBUILD_INITIATOR#"codepipeline/"}
-      - GITHUB_REPO_URL=`aws codepipeline get-pipeline --name $PIPELINE_NAME --region $AWS_REGION --query 'pipeline.stages[?name==\`Source\`].actions[0].configuration.{a:\`https://github.com\`,Owner:Owner,Repo:Repo} | [0] | values(@) | join(\`/\`, @)'`
-      - echo $GITHUB_REPO_URL
-      # - GITHUB_REPO_URL=https://github.com/teuteuguy/gg-sense-hat-imu
+      - GITHUB_REPO_URL=`aws codepipeline get-pipeline --name ${CODEBUILD_INITIATOR#"codepipeline/"} --region $AWS_REGION --query 'pipeline.stages[?name==\`Source\`].actions[0].configuration.{a:\`https://github.com\`,Owner:Owner,Repo:Repo} | [0] | values(@) | join(\`/\`, @)'`
   pre_build:
     commands:
       - echo Getting the Instance ID of our SSM managed device
       - INSTANCE_ID=`aws ssm describe-instance-information --region $AWS_REGION --query 'InstanceInformationList[?Name==\`donkeycar\`].InstanceId' --output text`
-      - echo InstanceId = $INSTANCE_ID
       - echo Getting the AWS IoT Get Credentials endpoint
       - IOT_CREDENTIAL_ENDPOINT=`aws iot describe-endpoint --endpoint-type iot:CredentialProvider --region $AWS_REGION --output text`
-      - echo AWS IoT Endpoint = $IOT_CREDENTIAL_ENDPOINT
   build:
     commands:
       - echo Running the build on the SSM managed device
