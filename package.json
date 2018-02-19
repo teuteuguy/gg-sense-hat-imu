@@ -3,14 +3,10 @@
   "version": "1.0.0",
   "description": "Greengrass Lambda function to interact with the Sense Hat IMU",
   "main": "index.js",
-  "dependencies": {
-    "nodeimu": "^2.1.9"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "scripts": {
-    "preinstall": "scripts/preinstall.sh",
-    "postinstall": "scripts/postinstall.sh",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "scripts/postinstall.sh"
   },
   "repository": {
     "type": "git",

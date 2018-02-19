@@ -1,3 +1,0 @@
-#!/bin/bash
-
-echo Pre Install Script
