@@ -8,6 +8,8 @@ echo Get temporary credentials from AWS IoT:
 
 AWS_COMMAND="aws"
 
+echo $AWS_ACCESS_KEY_ID, $AWS_SECRET_ACCESS_KEY, $AWS_SESSION_TOKEN
+
 PRIVATE_KEY=`cat /greengrass/config/config.json | jq -r '.coreThing.keyPath'`
 CERTIFICATE=`cat /greengrass/config/config.json | jq -r '.coreThing.certPath'`
 ROOT_CA=`cat /greengrass/config/config.json | jq -r '.coreThing.certPath'`
