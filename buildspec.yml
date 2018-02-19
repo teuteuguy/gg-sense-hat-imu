@@ -16,7 +16,7 @@ phases:
       - GG_GROUP_NAME=`echo $INSTANCE_TAGS | jq -c '.Tags[] | select(.Key == "gg-group") | .Value'`
       # - INSTANCE_ARN=`aws resourcegroupstaggingapi get-resources --region us-west-2 --tag-filters Key=gg-dev-pipeline --query ResourceTagMappingList[0].ResourceARN --output text`
       - INSTANCE_ARN=`echo $INSTANCE_TAGS | jq -c '.ResourceARN'`
-      - INSTANCE_ID=`echo ${INSTANCE_ARN##*/}`
+      - INSTANCE_ID=`echo \"${INSTANCE_ARN##*/}`
       - echo $GITHUB_REPO_URL, $GG_GROUP_NAME, $INSTANCE_ID
   pre_build:
     commands:
