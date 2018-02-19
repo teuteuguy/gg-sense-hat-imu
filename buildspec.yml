@@ -12,11 +12,11 @@ phases:
       - INSTANCE_TAGS=`aws resourcegroupstaggingapi get-resources --region $AWS_REGION --tag-filters Key=gg-dev-pipeline,Values=${CODEBUILD_INITIATOR#"codepipeline/"} --query ResourceTagMappingList[0]`
       - echo $INSTANCE_TAGS
       # - GITHUB_REPO_URL=`aws codepipeline get-pipeline --name ${CODEBUILD_INITIATOR#"codepipeline/"} --region $AWS_REGION --query 'pipeline.stages[?name==\`Source\`].actions[0].configuration.{a:\`https://github.com\`,Owner:Owner,Repo:Repo} | [0] | values(@) | join(\`/\`, @)'`
-      - GITHUB_REPO_URL=`echo $INSTANCE_TAGS | jq -c '.Tags[] | select(.Key == "github") | .Value'`
-      - GG_GROUP_NAME=`echo $INSTANCE_TAGS | jq -c '.Tags[] | select(.Key == "gg-group") | .Value'`
+      - GITHUB_REPO_URL=`echo $INSTANCE_TAGS | jq -rc '.Tags[] | select(.Key == "github") | .Value'`
+      - GG_GROUP_NAME=`echo $INSTANCE_TAGS | jq -rc '.Tags[] | select(.Key == "gg-group") | .Value'`
       # - INSTANCE_ARN=`aws resourcegroupstaggingapi get-resources --region us-west-2 --tag-filters Key=gg-dev-pipeline --query ResourceTagMappingList[0].ResourceARN --output text`
-      - INSTANCE_ARN=`echo $INSTANCE_TAGS | jq -c '.ResourceARN'`
-      - INSTANCE_ID=`echo \"${INSTANCE_ARN##*/}`
+      - INSTANCE_ARN=`echo $INSTANCE_TAGS | jq -rc '.ResourceARN'`
+      - INSTANCE_ID=`echo ${INSTANCE_ARN##*/}`
       - echo $GITHUB_REPO_URL, $GG_GROUP_NAME, $INSTANCE_ID
   pre_build:
     commands:
