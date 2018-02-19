@@ -4,7 +4,8 @@ phases:
   install:
     commands:
       - pip install --upgrade awscli
-      - apt-get install jq
+      - apt-get update
+      - apt-get install -y jq
       - echo Reading tags from our Managed Pi
       - INSTANCE_TAGS=`aws resourcegroupstaggingapi get-resources --region $AWS_REGION --tag-filters Key=gg-dev-pipeline,Values=${CODEBUILD_INITIATOR#"codepipeline/"} --query ResourceTagMappingList[0]`
       - echo $INSTANCE_TAGS
