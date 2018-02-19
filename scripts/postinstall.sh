@@ -26,21 +26,21 @@ LAMBDA_ALIAS_NAME="gg-dev-pipeline"
 
 echo "Zipping..."
 pwd
-# rm -f package.zip
-# zip -rq package.zip *
+rm -f package.zip
+zip -rq package.zip *
 
-# echo "Uploading to Lambda"
-# $AWS_COMMAND lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://`pwd`/package.zip
-# echo "Publishing new Lambda version"
-# LAMBDA_PUBLISH_VERSION=`$AWS_COMMAND lambda publish-version --function-name $LAMBDA_FUNCTION_NAME --query Version --output text`
-# echo "Updating the alias"
-# $AWS_COMMAND  lambda update-alias --name $LAMBDA_ALIAS_NAME --function-name $LAMBDA_FUNCTION_NAME --function-version $LAMBDA_PUBLISH_VERSION
+echo "Uploading to Lambda"
+$AWS_COMMAND lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://`pwd`/package.zip
+echo "Publishing new Lambda version"
+LAMBDA_PUBLISH_VERSION=`$AWS_COMMAND lambda publish-version --function-name $LAMBDA_FUNCTION_NAME --query Version --output text`
+echo "Updating the alias"
+$AWS_COMMAND  lambda update-alias --name $LAMBDA_ALIAS_NAME --function-name $LAMBDA_FUNCTION_NAME --function-version $LAMBDA_PUBLISH_VERSION
 
-# GROUP_ID=`$AWS_COMMAND greengrass list-groups --query "Groups[?Name=='$IOT_GG_GROUP_NAME'].Id" --output text`
-# GROUP_VERSION_ID=`$AWS_COMMAND greengrass list-groups --query "Groups[?Name=='$IOT_GG_GROUP_NAME'].LatestVersion" --output text`
+GROUP_ID=`$AWS_COMMAND greengrass list-groups --query "Groups[?Name=='$IOT_GG_GROUP_NAME'].Id" --output text`
+GROUP_VERSION_ID=`$AWS_COMMAND greengrass list-groups --query "Groups[?Name=='$IOT_GG_GROUP_NAME'].LatestVersion" --output text`
 
-# echo "Deploying to GG"
-# $AWS_COMMAND greengrass create-deployment --group-id $GROUP_ID --deployment-type NewDeployment --group-version-id $GROUP_VERSION_ID
+echo "Deploying to GG"
+$AWS_COMMAND greengrass create-deployment --group-id $GROUP_ID --deployment-type NewDeployment --group-version-id $GROUP_VERSION_ID
 
 
 
