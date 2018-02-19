@@ -1,3 +1,4 @@
+{
   "schemaVersion": "1.2",
   "description": "Git clone a Git repo and NPM Install it",
   "parameters": {
@@ -10,6 +11,11 @@
       "type": "String",
       "default": "",
       "description": "The AWS IOT get credentials endpoint."
+    },
+    "ggGroupName": {
+      "type": "String",
+      "default": "",
+      "description": "The GG Group Name"
     }
   },
   "runtimeConfig": {
@@ -24,7 +30,8 @@
             "git clone {{ gitRepositoryURL }} /tmp/repo",
             "cd /tmp/repo",
             "export IOT_CREDENTIAL_ENDPOINT={{ iotCredentialEndpoint }}",
-            "./build.sh"
+            "export IOT_GG_GROUP_NAME={{ ggGroupName }}",
+            "make"
           ]
         }
       ]
