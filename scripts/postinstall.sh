@@ -6,6 +6,8 @@ apt-get install -y jq curl
 
 echo Get temporary credentials from AWS IoT:
 
+AWS_COMMAND="aws"
+
 PRIVATE_KEY=`cat /greengrass/config/config.json | jq -r '.coreThing.keyPath'`
 CERTIFICATE=`cat /greengrass/config/config.json | jq -r '.coreThing.certPath'`
 ROOT_CA=`cat /greengrass/config/config.json | jq -r '.coreThing.certPath'`
@@ -18,7 +20,33 @@ echo $IOT_CREDENTIAL_ENDPOINT
 echo $IOT_GG_GROUP_NAME
 echo $AWS_ACCESS_KEY_ID, $AWS_SECRET_ACCESS_KEY, $AWS_SESSION_TOKEN
 
-aws lambda list-functions
+LAMBDA_FUNCTION_ARN=`$AWS_COMMAND resourcegroupstaggingapi get-resources --tag-filters Key=gg-dev-pipeline,Key=type,Values=lambda --query ResourceTagMappingList[].ResourceARN --output text`
+LAMBDA_FUNCTION_NAME=`$AWS_COMMAND lambda list-functions --query 'Functions[?FunctionArn==\`$LAMBDA_FUNCTION_ARN\`].FunctionName' --output text`
+LAMBDA_ALIAS_NAME="gg-dev-pipeline"
+
+echo "Zipping..."
+pwd
+# rm -f package.zip
+# zip -rq package.zip *
+
+# echo "Uploading to Lambda"
+# $AWS_COMMAND lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://`pwd`/package.zip
+# echo "Publishing new Lambda version"
+# LAMBDA_PUBLISH_VERSION=`$AWS_COMMAND lambda publish-version --function-name $LAMBDA_FUNCTION_NAME --query Version --output text`
+# echo "Updating the alias"
+# $AWS_COMMAND  lambda update-alias --name $LAMBDA_ALIAS_NAME --function-name $LAMBDA_FUNCTION_NAME --function-version $LAMBDA_PUBLISH_VERSION
+
+# GROUP_ID=`$AWS_COMMAND greengrass list-groups --query "Groups[?Name=='$IOT_GG_GROUP_NAME'].Id" --output text`
+# GROUP_VERSION_ID=`$AWS_COMMAND greengrass list-groups --query "Groups[?Name=='$IOT_GG_GROUP_NAME'].LatestVersion" --output text`
+
+# echo "Deploying to GG"
+# $AWS_COMMAND greengrass create-deployment --group-id $GROUP_ID --deployment-type NewDeployment --group-version-id $GROUP_VERSION_ID
+
+
+
+
+
+# aws lambda list-functions
 
 	# $(eval PRIVATE_KEY = $(shell cat /greengrass/config/config.json | jq -r '.coreThing.keyPath'))
 	# $(eval CERTIFICATE = $(shell cat /greengrass/config/config.json | jq -r '.coreThing.certPath'))
