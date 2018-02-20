@@ -9,7 +9,7 @@ phases:
       - mv jq-linux64 /usr/bin/jq
       - jq --version
       - echo Reading tags from our Managed Pi
-      - INSTANCE_TAGS=`aws resourcegroupstaggingapi get-resources --region $AWS_REGION --tag-filters Key=gg-dev-pipeline,Values=${CODEBUILD_INITIATOR#"codepipeline/"},Key=type,Values=ManagedInstance --query ResourceTagMappingList[0]`
+      - INSTANCE_TAGS=`aws resourcegroupstaggingapi get-resources --region $AWS_REGION --tag-filters Key=gg-dev-pipeline,Key=type,Values=ManagedInstance --query ResourceTagMappingList[0]`
       - echo $INSTANCE_TAGS
       - GITHUB_REPO_URL=`echo $INSTANCE_TAGS | jq -rc '.Tags[] | select(.Key == "github") | .Value'`
       - GG_GROUP_NAME=`echo $INSTANCE_TAGS | jq -rc '.Tags[] | select(.Key == "gg-group") | .Value'`
