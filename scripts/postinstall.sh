@@ -15,9 +15,9 @@ CERTIFICATE=`cat /greengrass/config/config.json | jq -r '.coreThing.certPath'`
 ROOT_CA=`cat /greengrass/config/config.json | jq -r '.coreThing.certPath'`
 AWS_REGION=`cat /greengrass/config/config.json | jq -r '.coreThing.ggHost | split(".")[2]'`
 CREDS=`curl -s --key /greengrass/certs/$PRIVATE_KEY --cacert /greengrass/certs/$ROOT_CA --cert /greengrass/certs/$CERTIFICATE https://$IOT_CREDENTIAL_ENDPOINT:443/role-aliases/lambda-full-access/credentials`
-AWS_ACCESS_KEY_ID=`echo $CREDS | jq -r ".credentials.accessKeyId"`
-AWS_SECRET_ACCESS_KEY=`echo $CREDS | jq -r ".credentials.secretAccessKey"`
-AWS_SESSION_TOKEN=`echo $CREDS | jq -r ".credentials.sessionToken"`
+export AWS_ACCESS_KEY_ID=`echo $CREDS | jq -r ".credentials.accessKeyId"`
+export AWS_SECRET_ACCESS_KEY=`echo $CREDS | jq -r ".credentials.secretAccessKey"`
+export AWS_SESSION_TOKEN=`echo $CREDS | jq -r ".credentials.sessionToken"`
 echo $IOT_CREDENTIAL_ENDPOINT
 echo $IOT_GG_GROUP_NAME
 echo $AWS_ACCESS_KEY_ID, $AWS_SECRET_ACCESS_KEY, $AWS_SESSION_TOKEN
