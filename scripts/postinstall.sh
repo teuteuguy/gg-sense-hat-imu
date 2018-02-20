@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo Post Install Script
 
 apt-get install -y jq curl zip
@@ -7,8 +9,6 @@ apt-get install -y jq curl zip
 echo Get temporary credentials from AWS IoT:
 
 AWS_COMMAND="aws"
-
-echo $AWS_ACCESS_KEY_ID, $AWS_SECRET_ACCESS_KEY, $AWS_SESSION_TOKEN
 
 PRIVATE_KEY=`cat /greengrass/config/config.json | jq -r '.coreThing.keyPath'`
 CERTIFICATE=`cat /greengrass/config/config.json | jq -r '.coreThing.certPath'`
@@ -18,16 +18,18 @@ CREDS=`curl -s --key /greengrass/certs/$PRIVATE_KEY --cacert /greengrass/certs/$
 export AWS_ACCESS_KEY_ID=`echo $CREDS | jq -r ".credentials.accessKeyId"`
 export AWS_SECRET_ACCESS_KEY=`echo $CREDS | jq -r ".credentials.secretAccessKey"`
 export AWS_SESSION_TOKEN=`echo $CREDS | jq -r ".credentials.sessionToken"`
-echo $IOT_CREDENTIAL_ENDPOINT
-echo $IOT_GG_GROUP_NAME
-echo $AWS_ACCESS_KEY_ID, $AWS_SECRET_ACCESS_KEY, $AWS_SESSION_TOKEN
+# echo $IOT_CREDENTIAL_ENDPOINT
+# echo $IOT_GG_GROUP_NAME
+# echo $AWS_ACCESS_KEY_ID, $AWS_SECRET_ACCESS_KEY, $AWS_SESSION_TOKEN
 
 LAMBDA_FUNCTION_ARN=`$AWS_COMMAND resourcegroupstaggingapi get-resources --region $AWS_REGION --tag-filters Key=gg-dev-pipeline,Key=type,Values=lambda --query ResourceTagMappingList[].ResourceARN --output text`
-LAMBDA_FUNCTION_NAME=`$AWS_COMMAND lambda list-functions --region $AWS_REGION --query 'Functions[?FunctionArn==\`$LAMBDA_FUNCTION_ARN\`].FunctionName' --output text`
+LAMBDA_FUNCTION_NAME=$($AWS_COMMAND lambda list-functions --region $AWS_REGION --query "Functions[?FunctionArn==\`$LAMBDA_FUNCTION_ARN\`].FunctionName" --output text)
 LAMBDA_ALIAS_NAME="gg-dev-pipeline"
 
+echo $LAMBDA_FUNCTION_ARN
+echo $LAMBDA_FUNCTION_NAME
+
 echo "Zipping..."
-pwd
 rm -f package.zip
 zip -rq package.zip *
 
