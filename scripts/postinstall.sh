@@ -2,7 +2,7 @@
 
 echo Post Install Script
 
-apt-get install -y jq curl
+apt-get install -y jq curl zip
 
 echo Get temporary credentials from AWS IoT:
 
